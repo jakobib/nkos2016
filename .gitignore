@@ -1,0 +1,4 @@
+*.bbl
+*.run.xml
+*.tex
+!header.tex
