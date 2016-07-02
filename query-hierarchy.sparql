@@ -1,0 +1,24 @@
+SELECT ?item ?itemLabel ?broader ?parents ?size ?sites {
+  {  
+    # number of additional superclasses
+    SELECT ?item (count(distinct ?parent)-1 as ?parents) {
+      ?item wdt:P279* wd:Q6423319
+      OPTIONAL { ?item wdt:P279 ?parent }
+    } GROUP BY ?item    
+  } { 
+    # number of instances
+    SELECT ?item (count(distinct ?element) as ?size) {
+     ?item wdt:P279* wd:Q6423319
+     OPTIONAL { ?element wdt:P31 ?item }
+    } GROUP BY ?item      
+  } { 
+    # number of sitelinks
+    SELECT ?item (count(distinct ?site) as ?sites) {
+      ?item wdt:P279* wd:Q6423319
+      OPTIONAL { ?site schema:about ?item }
+    } GROUP BY ?item    
+  }
+  OPTIONAL { ?item wdt:P279 ?broader }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
+}
+

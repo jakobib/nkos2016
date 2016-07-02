@@ -1,0 +1,12 @@
+# language coverage of selected items
+SELECT ?lang (COUNT(DISTINCT ?label) as ?items) WHERE {
+    # sample query: all subclasses of a given item
+    ?item wdt:P279* wd:Q6423319 .
+    # use "skos:altLabel" to access all labels
+    ?item rdfs:label ?label .
+    BIND(lang(?label) as ?lang) 
+} 
+GROUP BY ?lang
+# uncomment the following line to limit to languages with more than 2 labels
+# HAVING (?items > 2)
+ORDER BY DESC(?items)
