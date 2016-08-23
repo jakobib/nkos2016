@@ -22,7 +22,7 @@ keywords:
 Since introduction of the term knowledge organization system (KOS), several
 attempts have been made to classify KOSs by types such as glossaries, thesauri,
 classifications, and ontologies [@Hodge2000; @Gilchrist2003; @Souza2010;
-@Bratkova2014; @Pieterse2014] The set of KOS types and each of their extent
+@Bratkova2014; @Pieterse2014]. The set of KOS types and each of their extent
 varies depending on both domain or context of application (for instance
 different academic fields) and criteria of classification (for instance
 classification by purpose or structure).  In many cases, KOS types are arranged
@@ -43,11 +43,11 @@ so far [@Ledl2016].
 
 # Wikidata
 
-Wikidata^[<https://www.wikidata.org/>] is the most recent project of Wikimedia
-Foundation. In short, it is a collaboratively edited, free knowledge database
-that can be read and edited by to both humans and machines.  A good overview
-can be given by two of Wikidata's main creators @Vrandecic2014. The primary
-goals of the project are: 
+Wikidata^[<https://www.wikidata.org/>] is the most recent project of the
+Wikimedia Foundation. In short, it is a collaboratively edited, free knowledge
+database that can be read and edited by both humans and machines.  A good
+overview is given by two of Wikidata's main creators @Vrandecic2014. The
+primary goals of the project are: 
 
 1. Centralize links between Wikipedia language editions and other Wikimedia
    project sites. For instance all Wikipedia articles about "encyclopedia" 
@@ -58,7 +58,7 @@ goals of the project are:
 
 2. Centralize Infoboxes. More and more manually edited infoboxes (tables with 
    basic, factual information about a topic) are 
-   being extended to use Wikidata as database backend, so the displayed 
+   being extended to use Wikidata as their database backend, so the displayed 
    information will be the same in all Wikipedia editions.
 
 3. Provide an interface for rich queries. The content of Wikidata can be queried
@@ -89,13 +89,14 @@ and at least 1051 of 2490 Wikidata properties^[Measured at
 <https://www.wikidata.org/wiki/Special:ListProperties>, 2016-05-24] refer to
 external identifier systems of other databases.^[See also @Voss2014 for a
 German introduction to authority data in Wikidata.]  With uniquely identified
-records about virtually anything, Wikidata can also be seen as KOS in its own
+records about virtually anything, Wikidata can also be seen as a KOS in its own
 right, so it is included in BARTOC.^[<http://bartoc.org/en/node/1940>] For the
-scope of this study, Wikidata items about KOS types and instances are of
-special interest.  KOS instances are Wikidata items with a statement that links
-them to another item with property "instance of" (`P31`)". For instance the
-Dewey Decimal Classification ([`Q48460`](https://www.wikidata.org/wiki/Q48460))
-is an instance of both a "library classification"
+scope of this study, Wikidata items about KOS types and KOS instances are of
+special interest.  KOS instances are Wikidata items linked to KOS type items
+with property "instance of"
+([`P31`](https://www.wikidata.org/wiki/Property:P31))". For instance the Dewey
+Decimal Classification ([`Q48460`](https://www.wikidata.org/wiki/Q48460)) is an
+instance of both a "library classification"
 ([`Q48473`](https://www.wikidata.org/wiki/Q48473)) and a "universal
 classification scheme"
 ([`Q24243801`](https://www.wikidata.org/wiki/Q24243801)).  Both are connected
@@ -157,22 +158,23 @@ SELECT (COUNT(distinct ?kos) AS ?count) {
 \section{A KOS classification extracted from Wikidata} 
 
 The following classification of KOS types was extracted from Wikidata via
-SPARQL (figure \ref{fig:sparql}) and transformed into a table with Perl
-\cite{wdtree}. The list, at the time of its creation at July 1st 2016,
-contains 181 Wikidata items of KOS types, grouped in a multi-hierarchy. Classes
-within one level are sorted by their Wikidata identifier, reflecting the
-relative time when they were added to the database.  Items with multiple
-superclasses within the KOS type hierarchy are shown in italics at the their
-second occurrence, for instance a `\textit{plant taxonomy}' is both a
-`biological classification' and a `taxonomy'.  Superclasses from other parts of
-Wikidata are indicated with upwards pointing arrows ($\uparrow$), for instance
-`datamodel' is also subclass of `model' and `data set'.  The numbers right to
-each class label indicate the current number of instances in Wikidata (if there
-are any), and after a small plus sign the number of Wikipedia articles or other
-Wikimedia projects sites linked with the entry (sitelinks). To give an example
-three Wikidata items are marked as instance of `semantic network` and twenty
-Wikipedia editions include an article about semantic networks
-($2{\raisebox{.4\height}{\scalebox{.6}{+}}}20$). 
+SPARQL (figure \ref{fig:sparql}). The command line tool `wdtaxonomy', created especially to
+extract and display taxonomies, proved to be hugely useful for
+analysis \cite{wdtaxonomy}.  The outcome, at the time of its creation at August
+23rd 2016, contains 189 Wikidata items of KOS types, grouped in a
+multi-hierarchy. Classes within one level are sorted by their Wikidata
+identifier, reflecting the relative time when they were added to the database.
+Items with multiple superclasses within the KOS type hierarchy are shown in
+italics at the their second occurrence, for instance a `\textit{plant
+taxonomy}' is both a `biological classification' and a `taxonomy'.
+Superclasses from other parts of Wikidata are indicated with upwards pointing
+arrows ($\uparrow$), for instance `datamodel' is also subclass of `model' and
+`data set'.  The numbers right to each class label indicate the current number
+of instances in Wikidata (if there are any), and after a small plus sign the
+number of Wikipedia articles or other Wikimedia projects sites linked with the
+entry (sitelinks). For instance three Wikidata items are marked as instance of
+`semantic network` and twenty Wikipedia editions include an article about
+semantic networks ($3{\raisebox{.4\height}{\scalebox{.6}{+}}}20$). 
 
 \vspace{6mm}]
 \begin{scriptsize}
@@ -188,14 +190,16 @@ The classification of KOS types extracted from Wikidata is detailed but
 obviously sketchy in its current form. The system was even more incomplete
 before large parts of it had been edited by the author, mainly to adjust or
 add missing English labels and items without any instance or subclass
-statement.  Instead of criticizing usage limitations of Wikidata class
-hierarchies such as @Spitz2016, or suggesting methods to better spot
-classification inconsistencies such as @Brasileiro2016, peculiarities of
-knowledge organization systems based on Wikidata shall be highlighted
-in the following.
+statement. A couple of items were also moved or merged after notification and
+discussion with the Wikidata community.^[The question about 'taxonomy' vs.
+'biological classification' could not be resolved.] Instead of criticizing
+usage limitations of Wikidata class hierarchies such as @Spitz2016, or
+suggesting methods to better spot classification inconsistencies such as
+@Brasileiro2016, peculiarities of knowledge organization systems based on
+Wikidata shall be highlighted in the following.
 
 First of all, classes and instances are more or less given by existence or
-non-existence of Wikidata items with sitelinks: only 11 of 181 classes in the
+non-existence of Wikidata items with sitelinks: only 14 of 189 classes in the
 classification above don't have at least one corresponding Wikipedia article.
 To some degree new Wikidata items can also be added without sitelink, but this
 is controversial at least for abstract concepts which have no obvious unique
@@ -225,8 +229,8 @@ to as knowledge base, its practical purpose in many ways is more knowledge
 organization than knowledge representation.
 
 The number of sitelinks can be used as indicator how established or widely
-known a given concept is. The number of instances more depends on whether
-instances of some KOS type are relevant for inclusion in Wikimedia projects and
+known a concept is. The number of instances more depends on which
+KOS instances are relevant for inclusion in Wikimedia projects and
 have been classified in Wikidata at all.  Despite this bias, instances are very
 helpful to judge the application of a concept for classification.  Both new
 Wikidata instances and new sitelinks are added to KOS types virtually every
@@ -275,9 +279,10 @@ Wikidata can better be expressed by other types of KOS such as multi-level
 models [@Brasileiro2016] or thesauri [@Voss2006].
 
 Further work on the KOS classification includes alignment with the NKOS KOS
-Types Vocabulary [@KOSTypes2015] based on instances that have been classified
-in both Wikidata and BARTOC [@Ledl2016] and connected via Wikidata property
-"BARTOC ID" ([`P2689`](https://www.wikidata.org/wiki/Property:P2689)). Existing
-tools such as SQID Wikidata Browser^[<http://tools.wmflabs.org/sqid/>] should
-also be extended to better support management of KOSs extracted from Wikidata.
+Types Vocabulary [@KOSTypes2015]. KOS instances have been classified in both
+Wikidata and BARTOC [@Ledl2016], connected via Wikidata property "BARTOC ID"
+([`P2689`](https://www.wikidata.org/wiki/Property:P2689)).  More elaborated
+KOS extraction should also incorporate Wikidata qualifiers.  Existing tools
+such as SQID Wikidata Browser^[<http://tools.wmflabs.org/sqid/>] could further
+be extended to better support management of KOSs extracted from Wikidata.
 
