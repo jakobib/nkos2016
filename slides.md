@@ -11,7 +11,6 @@ date: 2016-09-09 # 10:00-10:45
 place: 15^th^ European NKOS Workshop, Hannover
 ...
 
-
 ## Overview
 
 1. Typology of Knowledge Organization System
@@ -153,12 +152,13 @@ terminology              58 synonym ring              1
 
 Public SPARQL endpoint at <https://query.wikidata.org/>
 
-    # get subclasses of "catalog"
+    # get subclasses (P279) of "catalog" (Q2352616)
     SELECT ?c WHERE { ?c wdt:P279 wd:Q2352616 }
 
-More complex query included in the paper
+* More complex query included in the paper
+* Easier integration into Wikipedia planned!
 
-## Wikidata and knowledge organization systems
+## Wikidata and Knowledge Organization Systems
 
 * Wikidata **is a KOS** with notations, multilingual labels, 
   scope notes, definitions, and rich connections between concepts.
@@ -168,128 +168,237 @@ More complex query included in the paper
     * e.g. [P1036](http://www.wikidata.org/entity/P1036) "DDC notation"
     * ... (> 40% of all properties!)
 
+## Wikidata as Knowledge Organization System
+
+* Wikidata **items** correspond to KOS concepts
+* Some Wikidata **properties** correspond to\
+  typical KOS relationship types:
+    * [P279](http://www.wikidata.org/entity/P279) "subclass of"
+    * [P31](http://www.wikidata.org/entity/P31) "instance of"
+    * [P361](http://www.wikidata.org/entity/P361) "part of"
+    * ...
+
+* Not applied consistently!
+* Semantics not as strict as wished by computer science\
+  @Spitz2016, @Brasileiro2016, ...
+
 # 3 \newline Managing a KOS typology in Wikidata
+
+## Extract KOS subclasses and instances
+
+[P279](http://www.wikidata.org/entity/P279) "subclass of"
+[Q6423319](http://www.wikidata.org/entity/Q64233198) "knowledge organization system"
+
+* **SPARQL**
+
+        SELECT ?class ?classLabel .. WHERE {
+            ?class wdt:P279* wd:Q6423319 .
+            ...
+
+* **wdtaxonomy** (<https://github.com/nichtich/wikidata-taxonomy>)
+
+        wdtaxonomy Q6423319
+
+## `wdtaxonomy Q5292`
+
+![](wdtaxonomy-encyclopedia.png){width=90%}
+
+## `wdtaxonomy --format csv Q5292`
+
+\scriptsize
+
+~~~
+level,id,label,sites,instances,parents
+,Q5292,encyclopedia,183,465,^^
+-,Q574634,,2,0,
+-,Q615699,internet encyclopedia,27,37,^
+-,Q975413,encyclopedic dictionary,8,43,^
+--,Q1787111,biographical encyclopedia,9,68,^
+---,Q1499601,,1,1,
+---,Q21050458,,1,0,
+---,Q21050912,,1,0,
+---,Q26721650,,3,0,
+-,Q1239328,national encyclopedia,1,43,
+-,Q1391417,single-field dictionary,3,1,^
+-,Q1525071,universal encyclopedia,2,1,
+-,Q1591238,,1,0,
+-,Q1659897,encyclopedia of literature,1,3,
+-,Q1673213,,1,0,
+-,Q2648129,,1,0,^
+-,Q4903126,Bible dictionary,5,2,^
+-,Q13419255,hypertext encyclopedia,1,6,
+-,Q25377545,,1,0,
+~~~
+
+## `git diff --word-diff-regex="[^[:space:],]+"`
+
+![](diff.png){width=90%}
+
+
+## Analysis of query results
+
+* (missing) labels
+* (number of) instances
+* (number of) sitelinks to Wikipedia/Wikisource/...
+* statements and definitions
+* ...
+
+![](iterative-process.png){width=100%}
+
+<!--
+## Tools
+
+* QuickStatements
+
+## Merge items
+
+![](merge.png){width=100%}
+-->
+
+## Current state of KOS typology in Wikidata
+
+* See full outline from August in the paper
+* Take numbers with care!
+
+-------------------------- ----
+number of classes           214
+level 1 subclasses           16
+classes in multi-hierarchy   14
+classes with instances      123
+classes with sitelink(s)    200
+number of instances        9437
+-------------------------- ----
+
+## Level 1 subclass of [Q6423319](http://www.wikidata.org/entity/Q64233198)
+
+**type** *subtypes*/*instances*
+
+* catalog 52/7882
+* encyclopedia 18/653
+* classification scheme 55/474
+* dictionary 50/443
+* ontology 5/37
+* authority control 0/37
+* terminology 8/33
+* controlled vocabulary 1/20
+* data model 18/12
+* conceptual model 6/4
+* semantic network 0/3
+* mind map, concept map, conceptual graph,\
+  synonym ring, numbering scheme: 0/0
+
+# 4 \newline Challenges
+
+## Classes (KOS types) vs. instances (KOSs)
+
+* Instances often erroneously assigned as "subclass of"
+* Sometimes it's not easy to decide, for instance:
+
+![](asteroid-spectral-type-r.png){width=90%}\
+some instances:\
+![](asteriod-spectral-type.png){width=60%}
+
+Tholen classification (1984) $\approx^?$ SMASS classification (2002)
+
+## Instances (KOSs) vs. parts (KOS concepts)
+
+* [Q26728105](https://www.wikidata.org/wiki/Q26728105) "class M planet":\
+  fictional type of planet in Star Trek
+* some Wikipedias only mentioned "class M planet",\
+  some described the whole Star Trek planet classification
+* solution:
+    1. rename Wikidata item
+	2. dispute with other Wikidata contributor
+	3. modify some Wikipedia articles\
+  	  "class M planet" $\rightarrow$
+  	  "Star Trek planet classification"
+	4. create new Wikidata item\
+	  [Q923148](https://www.wikidata.org/wiki/Q923148) Star Trek planet classification
+	5. dispute again whether this is an actual KOS or not
+
+*By the way, this is the most complete classification system of planets
+so far, as astronomers have not agreed on a system yet.*
+
+## General problems
+
+* Data and reality
+    * there is more than one way to model it
+    * people disagree about concepts
+    * part vs. whole ("Bonny and Clyde problem")
+    * ...  
+* Wikidata is special
+    * very dynamic
+    * no central authority
+    * it's a community
+    * ...
+
+<!-- *(biological) classification scheme* vs. *taxonomy*? -->
+
+# 4 \newline Summary and Outlook
 
 ## Create yet another KOS taxonomy?
 
 ![[CC-BY-NC 2.5: Randall Munroe](https://xkcd.com/927/)](standards.png){width=100%}
 
-## ...
-
-* Wikidata is like a box of chocolates. You never know what you're gonna get."
-* It has instances!
-* It already has definitions, translations..
-* It is out of control ;-)
-* Wikidata is very ... chaotic
-*
-
-## Tools
-
-* QuickStatements
-
-# 4 \newline Challenges
-
-## Open Issues
-
-* Some classes are rather instances, e.g.
-
-asteroid spectral type (Q1750705)
-
-## KOS vs. KOS concepts
-
-Example: 
-
-* **class M planet** is an earth like planet in Star Trek. 
-  Other planet classes (A, B, C ... Z) are also refered to
-  in the fictional universe.
-
-* Some Wikipedia editions have 
-
-first try: have 
-
-BTW: classifications are always artificial but not fictional
-
-BTW: this is the most complete classification system of planets so far,
-as astronomy has not developed a full system yet.
-
 ## Summary
 
-* light multi-hierarchy
-* x classes, y instances (caution)
-* manually adjusted
-* done how?
-    * BARTOC
-    * wdtaxonomy
-
-## Overview
-
-![](diff.png){witdh=100%}
-
----
-
-![](merge.png){width=100%}
-
----
-
-![](wdtaxonomy-encyclopedia.png){width=100%}
-
-## Example of KOS concepts in Wikidata
-
-* Köppen climate classification system 
-  [Q124095](https://www.wikidata.org/wiki/Q124095)
-* <part-of / has parts of the class>
-* category in the Köppen climate classification system 
-  [Q23702033](https://www.wikidata.org/wiki/Q23702033)
-* <instance-of
-* oceanic climate [Q182090](https://www.wikidata.org/wiki/Q182090)
-
-
-* Library of Congress Classification:Class A -- General Works
-  [Q6542579](https://www.wikidata.org/wiki/Q6542579)
-
-## Example:
-
-astronomy classification (`$ wdtaxonomy Q25696292`):
-
-* asteroid spectral type
-    * Tholen classification (1984)
-    * SMASS classification (2002)
-
-both overlap to large degree
-
-classes have letters, e.g.
-
-A-Type, B-Type, C-Type ... as Wikidata items instance-of the classification
-
-## Problem
-
-* It's made in every KOS typology but I just don't 
-  understand the difference between
-
-  * *classification scheme*
-  * and *taxonomy*
-
-
-# 4 \newline Summary and Outlook
+* Wikidata is a KOS
+* Covers primarily what's documented in (any) Wikipedia
+* More specialized KOS types can be extracted from Wikidata
+* For instance a classification of KOS types
+* Updates and cleanup require continuous curation\
+  and engagement in Wikidata
 
 ## Outlook
 
-* Contribution in Wikidata is welcome!
+<https://www.wikidata.org/wiki/Wikidata:WikiProject_Knowledge_Organization_Systems>
 
-* WikiProjekt KOS: ...
-
-* Add KOS type division criteria as facets 
-  (qualifier or properties). *Domain* has
-  already been added for some specialized KOS types
+* Add facets as Wikidata qualifiers, for instance
+  *domain* of a specialized classification scheme
  
+* Check structural integrity and inconsistencies
+
+* Compare with category system of individual Wikipedias
+
+* Compare with other KOS type classifications
+
 * ...
 
-## Possible methods of improvement
+## Help needed
 
-* Check structural integrity (A subclass B subclass C: A not subclass C)
-* Compare with category system of individual Wikipedias
-*
+![](taxonomy1.png){width=70%}
+
+![](taxonomy2.png){width=95%}
+
+## KOS parts (concepts) in Wikidata
+
+Some KOS instances have parts, some even have concept types:
+
+[Q267474](https://www.wikidata.org/wiki/Q267474) climate classification\
+$\uparrow$ [P279](https://www.wikidata.org/entity/P279) subclass of\
+[Q21473954](https://www.wikidata.org/wiki/Q21473954)
+effective climate classification\
+$\uparrow$ [P31](https://www.wikidata.org/entity/P31) instance of\
+[Q124095](https://www.wikidata.org/wiki/Q124095)
+Köppen climate classification system\
+$\uparrow$ [P361](https://www.wikidata.org/entity/P361) part of/
+$\downarrow$ [P2670](https://www.wikidata.org/entity/P2670) has parts of the class\
+[Q23702033](https://www.wikidata.org/wiki/Q23702033)
+category in the Köppen climate classification system\
+$\uparrow$ [P31](https://www.wikidata.org/entity/P31) instance of\
+[Q182090](https://www.wikidata.org/wiki/Q182090) oceanic climate
+
+
+## Final recommendations
+
+*"We just need to ensure that we aren’t seduced into codifying, categorizing, and structuring in cases when we should be describing the inherent messiness of a situation."* [@Graham2012]
+
+No explaining can beat actually contributing to Wikidata.
+
+\textit{\Large Give it a try!}
 
 ## References
+
+<!-- TODO: add/see full paper! -->
 
 \scriptsize
