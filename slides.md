@@ -8,7 +8,10 @@ author:
     name: Jakob Voß
 institute: Verbundzentrale des GBV (VZG), Göttingen, Germany
 date: 2016-09-09 # 10:00-10:45
+subtitle: '[10.5281/zenodo.61767](http://dx.doi.org/10.5281/zenodo.61767)'
 place: 15^th^ European NKOS Workshop, Hannover
+nocite: |
+  @Voss2016
 ...
 
 ## Overview
@@ -128,9 +131,10 @@ terminology              58 synonym ring              1
 * **Properties** (`P...`)
     * e.g. [P25](http://www.wikidata.org/entity/P25) "mother"
     * e.g. [P1103](http://www.wikidata.org/entity/P1103) "number of railway station platform tracks"
-    * creation after community consensus (kind-of)
+    * creation after community consensus
 
-* normal wiki pages (discussion, help...)
+* normal **wiki pages** (discussion, help...)
+    * e.g. <http://www.wikidata.org/wiki/Wikidata:Project_chat>
 
 ## Wikidata statements
 
@@ -155,8 +159,7 @@ Public SPARQL endpoint at <https://query.wikidata.org/>
     # get subclasses (P279) of "catalog" (Q2352616)
     SELECT ?c WHERE { ?c wdt:P279 wd:Q2352616 }
 
-* More complex query included in the paper
-* Easier integration into Wikipedia planned!
+Easier queries and integration into Wikipedia planned.
 
 ## Wikidata and Knowledge Organization Systems
 
@@ -190,14 +193,12 @@ Public SPARQL endpoint at <https://query.wikidata.org/>
 [Q6423319](http://www.wikidata.org/entity/Q64233198) "knowledge organization system"
 
 * **SPARQL**
+    * See full query in the paper [@Voss2016]
 
-        SELECT ?class ?classLabel .. WHERE {
-            ?class wdt:P279* wd:Q6423319 .
-            ...
+* **wdtaxonomy**
 
-* **wdtaxonomy** (<https://github.com/nichtich/wikidata-taxonomy>)
-
-        wdtaxonomy Q6423319
+    * `wdtaxonomy Q6423319`
+    * <https://github.com/nichtich/wikidata-taxonomy>
 
 ## `wdtaxonomy Q5292`
 
@@ -257,8 +258,7 @@ level,id,label,sites,instances,parents
 
 ## Current state of KOS typology in Wikidata
 
-* See full outline from August in the paper
-* Take numbers with care!
+*take numbers with care!*
 
 -------------------------- ----
 number of classes           214
@@ -353,6 +353,8 @@ so far, as astronomers have not agreed on a system yet.*
 
 <https://www.wikidata.org/wiki/Wikidata:WikiProject_Knowledge_Organization_Systems>
 
+Much to be done:
+
 * Add facets as Wikidata qualifiers, for instance
   *domain* of a specialized classification scheme
  
@@ -364,7 +366,7 @@ so far, as astronomers have not agreed on a system yet.*
 
 * ...
 
-## Help needed
+## Taxonomy is a mess
 
 ![](taxonomy1.png){width=70%}
 
@@ -375,17 +377,17 @@ so far, as astronomers have not agreed on a system yet.*
 Some KOS instances have parts, some even have concept types:
 
 [Q267474](https://www.wikidata.org/wiki/Q267474) climate classification\
-$\uparrow$ [P279](https://www.wikidata.org/entity/P279) subclass of\
+&nbsp;$\uparrow$ [P279](https://www.wikidata.org/entity/P279) subclass of\
 [Q21473954](https://www.wikidata.org/wiki/Q21473954)
 effective climate classification\
-$\uparrow$ [P31](https://www.wikidata.org/entity/P31) instance of\
+&nbsp;$\uparrow$ [P31](https://www.wikidata.org/entity/P31) instance of\
 [Q124095](https://www.wikidata.org/wiki/Q124095)
 Köppen climate classification system\
-$\uparrow$ [P361](https://www.wikidata.org/entity/P361) part of/
+&nbsp;$\uparrow$ [P361](https://www.wikidata.org/entity/P361) part of/
 $\downarrow$ [P2670](https://www.wikidata.org/entity/P2670) has parts of the class\
 [Q23702033](https://www.wikidata.org/wiki/Q23702033)
 category in the Köppen climate classification system\
-$\uparrow$ [P31](https://www.wikidata.org/entity/P31) instance of\
+&nbsp;$\uparrow$ [P31](https://www.wikidata.org/entity/P31) instance of\
 [Q182090](https://www.wikidata.org/wiki/Q182090) oceanic climate
 
 
@@ -395,10 +397,9 @@ $\uparrow$ [P31](https://www.wikidata.org/entity/P31) instance of\
 
 No explaining can beat actually contributing to Wikidata.
 
-\textit{\Large Give it a try!}
+\huge
+Give it a try!
 
-## References
-
-<!-- TODO: add/see full paper! -->
+## References {.allowframebreaks}
 
 \scriptsize
